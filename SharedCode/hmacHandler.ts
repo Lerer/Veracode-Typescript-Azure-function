@@ -1,18 +1,11 @@
 import * as crypto from  'crypto';
 import {getLocalAuthorization} from './accessPropertiesReader';
 
-//const id = process.env.API_ID;
-//const key = process.env.KEY;
 
 const headerPreFix = "VERACODE-HMAC-SHA-256";
 const verStr = "vcode_request_version_1";
 
-var url = '/v3/workspaces'
-var host = 'api.veracode.com';
-
 var hmac256 = (data:string|Int8Array, key:string|Buffer|Int8Array, format:"hex"|undefined) => {
-    console.log('hmac256');
-    console.log(typeof(key)+ ' - '+key);
     let hash = crypto.createHmac('sha256', key).update(data);
     if (format===undefined){
         return hash.digest();
@@ -22,7 +15,7 @@ var hmac256 = (data:string|Int8Array, key:string|Buffer|Int8Array, format:"hex"|
     }
 }
 
-var getByteArray = (hex) => {
+var getByteArray = (hex:string) => {
 	var bytes = [];
 
 	for(var i = 0; i < hex.length-1; i+=2){
@@ -31,13 +24,6 @@ var getByteArray = (hex) => {
 
 	// signed 8-bit integer array (byte array)
 	return Int8Array.from(bytes);
-}
-
-const getCredentials = () => {
-    return {
-        API_ID: 'gg',
-        KEY: 'gggggg'
-    }
 }
 
 export function generateHeader (context,host:string, urlPpath:string, method:string) {
