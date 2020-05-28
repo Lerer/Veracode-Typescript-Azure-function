@@ -1,6 +1,6 @@
 import * as crypto from  'crypto';
 import {getLocalAuthorization} from './accessPropertiesReader';
-
+import {  Context } from "@azure/functions"
 
 const headerPreFix = "VERACODE-HMAC-SHA-256";
 const verStr = "vcode_request_version_1";
@@ -26,7 +26,29 @@ var getByteArray = (hex:string) => {
 	return Int8Array.from(bytes);
 }
 
-export function generateHeader (context,host:string, urlPpath:string, method:string) {
+/*
+The generateHeader function require the presense of the id and secret which need to be generated in the platform:
+- https://help.veracode.com/reader/LMv_dtSHyb7iIxAQznC~9w/3YtglKwBsC_tCpQpA4Axiw
+
+When running in the Cloud, verify you setup environment variables:
+- veracode_api_key_id
+- veracode_api_key_secret
+
+When running locally you need to make sure you update credentials file as per:
+- https://help.veracode.com/reader/LMv_dtSHyb7iIxAQznC~9w/zm4hbaPkrXi02YmacwH3wQ
+
+Following on that, you need to update the local setting file to include the profile you put the credentials into:
+{
+  "IsEncrypted": false|true,
+  "Values": {
+    "AzureWebJobsStorage": "......",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+
+    "veracode_auth_profile":"<Profile name>"
+  }
+}
+*/
+export function generateHeader (context:Context,host:string, urlPpath:string, method:string) {
     context.log('generateHeader');
     // for cloud deployment - these should be the credentials
     let id = process.env.veracode_api_key_id;
