@@ -37,7 +37,7 @@ When running in the Cloud, verify you setup environment variables:
 When running locally you need to make sure you update credentials file as per:
 - https://help.veracode.com/reader/LMv_dtSHyb7iIxAQznC~9w/zm4hbaPkrXi02YmacwH3wQ
 
-Following on that, you need to update the local setting file to include the profile you put the credentials into:
+Following on that, you need to update the local setting file (local.settings.json) to include the profile you put the credentials into:
 {
   "IsEncrypted": false|true,
   "Values": {
@@ -47,6 +47,8 @@ Following on that, you need to update the local setting file to include the prof
     "veracode_auth_profile":"<Profile name>"
   }
 }
+note - if you are using this repo as a code example, you will need to update the function to read 
+       the credential file profile id from a different place.
 */
 export function generateHeader (context:Context,host:string, urlPpath:string, method:string) {
     context.log('generateHeader');
@@ -54,12 +56,12 @@ export function generateHeader (context:Context,host:string, urlPpath:string, me
     let id = process.env.veracode_api_key_id;
     let secret = process.env.veracode_api_key_secret;
 
-    // Replace with your own profile in local.settings.json for local debugging
-    if (id === undefined || id.length==0){
+    // Replace with your own profile in local.settings.json
+    if (id === undefined || id.length==0 || secret===undefined || secret.length==0){
         var authProfile = process.env.veracode_auth_profile;
         if (authProfile !== undefined && authProfile.length>0) {
             const credentials = getLocalAuthorization(authProfile);
-            context.log(credentials);
+            // context.log(credentials); - uncomment only for local debug
             id = credentials.API_ID;
             secret = credentials.SECRET;
         }

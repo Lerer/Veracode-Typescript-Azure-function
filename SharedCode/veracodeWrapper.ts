@@ -35,7 +35,6 @@ const requests = {
 }
 
 export async function specificRequest (context,requestType:string) {
-    context.log('specificRequest');
     let request = requests[requestType];
     let res = {
         message: 'No specific request found'
@@ -49,7 +48,7 @@ export async function specificRequest (context,requestType:string) {
             }
             let query = request.queryParams || '';
             const url = 'https://'+request.host+request.path+query;
-            context.log(url);
+            // context.log(url); 
             res = await fetch(url, options)
                 .then(res => res.json())
                 .catch(err => context.log.error(err));
@@ -61,7 +60,6 @@ export async function specificRequest (context,requestType:string) {
 }
 
 const requestSpecificRequestHeader = async (context,requestType:string) => {
-    context.log('generateSpecificRequestHeader');
     let request = requests[requestType];
     if (request !== undefined) {
         return generateHeader(context,request.host,request.path+request.queryParams,request.method);
