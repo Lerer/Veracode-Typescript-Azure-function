@@ -13,14 +13,15 @@ you can modify the "specificRequest(context,'getWorkspaceIssues')" in index.ts t
 Note for the predefined requests, you will have to update the ids to your projects and workspaces
 
 #### For environment variables...
-The generateHeader function require the presense of the id and secret which need to be [generated in the platform]:
+The generateHeader function require the presense of the id and secret which need to be [generated in the platform].
 
 When running in the Cloud, verify you setup environment variables:
 - veracode_api_key_id
 - veracode_api_key_secret
 
 ##### Local Debug
-When running locally you need to make sure you create or update [the credentials file]
+When running locally you need to make sure you create or update [the credentials file].
+
 Following on that, you need to update the local setting file (*local.settings.json*) to include the profile you put the credentials into:
 ```
 {
